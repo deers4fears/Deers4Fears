@@ -1,0 +1,57 @@
+body{
+      background-image: url("simonspace/simonred.gif");
+    }
+    @font-face {
+      font-family: 'font';
+      src: url(simonspace/STENCIL.TTF);
+    }
+    
+.glow{
+    text-shadow: 0 0 5px #FF0000, 0 0 10px #FF0000, 0 0 15px #FF0000;
+  
+        }
+.nospace {
+  padding-top: 50px;
+  padding: 2px;
+
+}
+a:link {
+  color: black;
+  text-decoration: none;
+}
+a:visited {
+  color: black;
+  text-decoration: none;
+}
+a:hover {
+  animation: colorRotate 1s linear 0s infinite;
+  text-decoration: none;
+}
+a:active {
+  color: black;
+  text-decoration: none;
+}
+
+
+.hover:hover {
+  animation: colorRotate 1s linear 0s infinite;
+}
+
+@keyframes colorRotate {
+  from {
+    color: #C80000;
+  }
+  25% {
+    color: #640000;
+  }
+  50% {
+    color: #C80000;
+  }
+  75% {
+    color: #640000;
+  }
+  100% {
+    color: #C80000;
+  }
+}
+  

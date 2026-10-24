@@ -1,0 +1,17 @@
+body{
+
+      background-image: url(bg.gif) ;
+      background-color: black;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    @font-face {
+      font-family: 'finn';
+      src: url(finn.ttf);
+    }    
+    
+    .shadow{
+    text-shadow: 0 0 5px #1AD496, 0 0 10px #1AD496, 0 0 15px #1AD496;
+  
+        }

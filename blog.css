@@ -1,0 +1,64 @@
+    body{
+      background-image: url("important/backgrounds/gween.gif");
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    @font-face {
+      font-family: 'comicsams';
+      src: url(important/sansfont.ttf);
+    }
+    
+.who{
+    text-shadow: 0 0 5px #FFFFFF, 0 0 10px #FFFFFF, 0 0 15px #FFFFFF;      
+}
+
+.robin{
+    text-shadow: 0 0 10px #FF09C1, 0 0 15px #FF09C1, 0 0 20px #FF09C1;
+}
+
+.simon{
+    text-shadow: 0 0 10px #E2244A, 0 0 15px #E2244A, 0 0 20px #E2244A;       
+}
+
+.dess{
+    text-shadow: 0 0 10px #00A2E8, 0 0 15px #00A2E8, 0 0 20px #00A2E8;       
+}
+
+.faith{
+    text-shadow: 0 0 10px #a12947, 0 0 15px #a12947, 0 0 20px #a12947;      
+}
+
+.fawn{
+    text-shadow: 0 0 10px #7C9574, 0 0 15px #7C9574, 0 0 20px #7C9574;      
+}
+
+.socks{
+    text-shadow: 0 0 10px #7059bb, 0 0 15px #7059bb, 0 0 20px #7059bb;      
+}
+
+.mikey{
+    text-shadow: 0 0 10px #BA2B00, 0 0 15px #BA2B00, 0 0 20px #BA2B00;
+}
+
+.blurry{
+    text-shadow: 0 0 10px #FFFFFF, 0 0 15px #FFFFFF, 0 0 20px #FFFFFF;      
+}
+
+a:link {
+  color: white;
+  text-decoration: none;
+}
+a:visited {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: white;
+  text-decoration: none;
+}
+a:active {
+  color: white;
+  text-decoration: none;
+}
+ 

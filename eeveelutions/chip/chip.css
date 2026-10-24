@@ -1,0 +1,10 @@
+body{
+
+      background-image: url(bg.jpg) ;
+
+    }
+    @font-face {
+      font-family: 'chip';
+      src: url(chip.ttf);
+    }    
+    

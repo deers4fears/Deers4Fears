@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>welcome, neighbour</title>
+</head>
+<body>
+    <link rel="stylesheet" href="blog.css">
+    <link rel="shortcut icon" type="x-icon" href="important/skull.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript">
+        // <![CDATA[
+        var colour = "random"; // in addition to "random" can be set to any valid colour eg "#f0f" or "red"
+        var sparkles = 50;
+
+        /****************************
+        *  Tinkerbell Magic Sparkle *
+        *(c)2005-13 mf2fm web-design*
+        *  http://www.mf2fm.com/rv  *
+        * DON'T EDIT BELOW THIS BOX *
+        ****************************/
+        var x = ox = 400;
+        var y = oy = 300;
+        var swide = 800;
+        var shigh = 600;
+        var sleft = sdown = 0;
+        var tiny = new Array();
+        var star = new Array();
+        var starv = new Array();
+        var starx = new Array();
+        var stary = new Array();
+        var tinyx = new Array();
+        var tinyy = new Array();
+        var tinyv = new Array();
+
+        window.onload = function () {
+            if (document.getElementById) {
+                var i, rats, rlef, rdow;
+                for (var i = 0; i < sparkles; i++) {
+                    var rats = createDiv(3, 3);
+                    rats.style.visibility = "hidden";
+                    rats.style.zIndex = "999";
+                    document.body.appendChild(tiny[i] = rats);
+                    starv[i] = 0;
+                    tinyv[i] = 0;
+                    var rats = createDiv(5, 5);
+                    rats.style.backgroundColor = "transparent";
+                    rats.style.visibility = "hidden";
+                    rats.style.zIndex = "999";
+                    var rlef = createDiv(1, 5);
+                    var rdow = createDiv(5, 1);
+                    rats.appendChild(rlef);
+                    rats.appendChild(rdow);
+                    rlef.style.top = "2px";
+                    rlef.style.left = "0px";
+                    rdow.style.top = "0px";
+                    rdow.style.left = "2px";
+                    document.body.appendChild(star[i] = rats);
+                }
+                set_width();
+                sparkle();
+            }
+        }
+
+        function sparkle() {
+            var c;
+            if (Math.abs(x - ox) > 1 || Math.abs(y - oy) > 1) {
+                ox = x;
+                oy = y;
+                for (c = 0; c < sparkles; c++) if (!starv[c]) {
+                    star[c].style.left = (starx[c] = x) + "px";
+                    star[c].style.top = (stary[c] = y + 1) + "px";
+                    star[c].style.clip = "rect(0px, 5px, 5px, 0px)";
+                    star[c].childNodes[0].style.backgroundColor = star[c].childNodes[1].style.backgroundColor = (colour == "random") ? newColour() : colour;
+                    star[c].style.visibility = "visible";
+                    starv[c] = 50;
+                    break;
+                }
+            }
+            for (c = 0; c < sparkles; c++) {
+                if (starv[c]) update_star(c);
+                if (tinyv[c]) update_tiny(c);
+            }
+            setTimeout("sparkle()", 40);
+        }
+
+        function update_star(i) {
+            if (--starv[i] == 25) star[i].style.clip = "rect(1px, 4px, 4px, 1px)";
+            if (starv[i]) {
+                stary[i] += 1 + Math.random() * 3;
+                starx[i] += (i % 5 - 2) / 5;
+                if (stary[i] < shigh + sdown) {
+                    star[i].style.top = stary[i] + "px";
+                    star[i].style.left = starx[i] + "px";
+                }
+                else {
+                    star[i].style.visibility = "hidden";
+                    starv[i] = 0;
+                    return;
+                }
+            }
+            else {
+                tinyv[i] = 50;
+                tiny[i].style.top = (tinyy[i] = stary[i]) + "px";
+                tiny[i].style.left = (tinyx[i] = starx[i]) + "px";
+                tiny[i].style.width = "2px";
+                tiny[i].style.height = "2px";
+                tiny[i].style.backgroundColor = star[i].childNodes[0].style.backgroundColor;
+                star[i].style.visibility = "hidden";
+                tiny[i].style.visibility = "visible"
+            }
+        }
+
+        function update_tiny(i) {
+            if (--tinyv[i] == 25) {
+                tiny[i].style.width = "1px";
+                tiny[i].style.height = "1px";
+            }
+            if (tinyv[i]) {
+                tinyy[i] += 1 + Math.random() * 3;
+                tinyx[i] += (i % 5 - 2) / 5;
+                if (tinyy[i] < shigh + sdown) {
+                    tiny[i].style.top = tinyy[i] + "px";
+                    tiny[i].style.left = tinyx[i] + "px";
+                }
+                else {
+                    tiny[i].style.visibility = "hidden";
+                    tinyv[i] = 0;
+                    return;
+                }
+            }
+            else tiny[i].style.visibility = "hidden";
+        }
+
+        document.onmousemove = mouse;
+        function mouse(e) {
+            if (e) {
+                y = e.pageY;
+                x = e.pageX;
+            }
+            else {
+                set_scroll();
+                y = event.y + sdown;
+                x = event.x + sleft;
+            }
+        }
+
+        window.onscroll = set_scroll;
+        function set_scroll() {
+            if (typeof (self.pageYOffset) == 'number') {
+                sdown = self.pageYOffset;
+                sleft = self.pageXOffset;
+            }
+            else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+                sdown = document.body.scrollTop;
+                sleft = document.body.scrollLeft;
+            }
+            else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+                sleft = document.documentElement.scrollLeft;
+                sdown = document.documentElement.scrollTop;
+            }
+            else {
+                sdown = 0;
+                sleft = 0;
+            }
+        }
+
+        window.onresize = set_width;
+        function set_width() {
+            var sw_min = 999999;
+            var sh_min = 999999;
+            if (document.documentElement && document.documentElement.clientWidth) {
+                if (document.documentElement.clientWidth > 0) sw_min = document.documentElement.clientWidth;
+                if (document.documentElement.clientHeight > 0) sh_min = document.documentElement.clientHeight;
+            }
+            if (typeof (self.innerWidth) == 'number' && self.innerWidth) {
+                if (self.innerWidth > 0 && self.innerWidth < sw_min) sw_min = self.innerWidth;
+                if (self.innerHeight > 0 && self.innerHeight < sh_min) sh_min = self.innerHeight;
+            }
+            if (document.body.clientWidth) {
+                if (document.body.clientWidth > 0 && document.body.clientWidth < sw_min) sw_min = document.body.clientWidth;
+                if (document.body.clientHeight > 0 && document.body.clientHeight < sh_min) sh_min = document.body.clientHeight;
+            }
+            if (sw_min == 999999 || sh_min == 999999) {
+                sw_min = 800;
+                sh_min = 600;
+            }
+            swide = sw_min;
+            shigh = sh_min;
+        }
+
+        function createDiv(height, width) {
+            var div = document.createElement("div");
+            div.style.position = "absolute";
+            div.style.height = height + "px";
+            div.style.width = width + "px";
+            div.style.overflow = "hidden";
+            return (div);
+        }
+
+        function newColour() {
+            var c = new Array();
+            c[0] = 255;
+            c[1] = Math.floor(Math.random() * 256);
+            c[2] = Math.floor(Math.random() * (256 - c[1] / 2));
+            c.sort(function () { return (0.5 - Math.random()); });
+            return ("rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ")");
+        }
+        // ]]>
+
+    </script>
+
+
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 23.10.2026</p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">The End by My Chemical Romance</span> </p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        i have had a postively wonderful day<br>
+        i woke up bright eyed and bushy tailed at about 6:30<br>
+        (today is very bunnycoded)<br>
+        i got to town about 7:15 and walked around for a while until i met up with my friend<br>
+        and then we went to tescos but that wasn't much that's not the fun part<br>
+        we then went on the bus to [data expunged]<br>
+        and then we got to the hmv, there were only a couple of people there so that was cool<br>
+        and i gave out some of the bracelets i made yesterday which was so awesome i only have five left now which is awesome because i made 28<br>
+        and i got a bracelet and a drawing of ray toro in return wowzers<br>
+        and then we waited and then the hmv opened<br>
+        and then we got to go into the hmv<br>
+        and they had an exclusve vinyl (ooooh) which is very cool<br>
+        i'm looking at it now :33 it's on my shelf yay my shelf<br>
+        <br /><img src="fortheblog/04shelf.jpg" width=700><br />
+        i also got the cd which i am listening to now yay<br>
+        and they had free stuff too so i have a poster which is to my left and some stickers i'm going to put one on my laptop and probably one on my cd case and one on my drawing tablet and i don't know what i'm going to do with the last one yet<br>
+        so then we walked around [data expunged] for a while and i got silly creature guy
+        <br /><img src="fortheblog/04creature.jpg" width=250><br />
+        i've never seen stranger things but i like him a lot<br>
+        this may be what makes me watch stranger things<br>
+        so then we got the bus back and i hung out i my friend's apartment for a while because my dad was busy and couldn't pick me up<br>
+        we ate rice and she told me about fallout. it sounds very cool. i am concidering playing fallout.<br>
+        then i went home and slept and now i am awake again and i played some dog online and now i'm listening to the cd and writing this.<br>
+        <br><br>
+        well anyway that's Robin signing off, have a good morning,<br>
+        and in case I don't see you good afternoon, good evening, and good night<br><br>
+    </p>
+
+
+
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:30px;"> 28.09.2026</p>
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Storyteller by Patricia Taxxon</span> </p>
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        we've been dissasociating for a full day now. <br>
+        simon was here at some point and according to allison's tumblr posts so was faith. <br>
+        i am here now. i dont think ive ever fronted alone before<br>
+        i dont like it. i want allison back<br>
+        i made it a playlist so hopefully bun will be back soon<br>
+        if this doesnt work ill watch some of kits movies until it comes back<br>
+        i cant be alone i dont want to be alone.<br>
+        im glad it made it easy to add these entries<br>
+        it should know i was here<br>
+        -D
+    </p>
+
+    <br>
+    <br>
+
+
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 23.09.2026</p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Ringtone by Weird Al</span> </p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        haha so uhhhh i just kinda. forgot to update here for a long while. but i'm gonna try to be abit more on it<br>
+        going to make some site bits for my eeveelution ocs.<br>
+        finished off Finn's today yay
+        <br><br>
+        well anyway that's Robin signing off, have a good morning,<br>
+        and in case I don't see you good afternoon, good evening, and good night<br><br>
+        ps. u should friend me on spacehey<br>
+        https://spacehey.com/robbiegraves
+    </p>
+
+    <br>
+    <br>
+
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 04.08.2026</p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Someday by The Strokes</span> </p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        i've been swamped. with business.<br>
+        but in all seriousness yeah uni has kinda been kicking my ass but i have it under control. <br>
+        nothing specific to add today. <br>
+        had a weird sunday, weird tumblr posts i guess but that happens. wonder who it was.
+        <br><br>
+        well anyway that's Robin signing off, have a good morning,<br>
+        and in case I don't see you good afternoon, good evening, and good night
+    </p>
+
+    <br>
+    <br>
+
+
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 26.07.2026</p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Sugar We're Going Down by Fallout Boy</span> </p>
+    <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        haha sorry i haven't updated in a while<br>
+        i kinda got in a slump after last weekend<br>
+        i saw the guy i kinda hate<br>
+        so i drew stuff about it<br>
+        <img src="fortheblog/03ventslop.png" width=700><br>
+        and then i went away for the weekend<br>
+        and was kinda dead all week<br>
+        but its okay<br>
+        ive had inspiration this weekend.<br>
+        im doing well again
+        <br><br>
+        well anyway that's Robin signing off, have a good morning,<br>
+        and in case I don't see you good afternoon, good evening, and good night
+    </p>
+
+    <br>
+    <br>
+
+
+
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:30px;"> 15.07.2026</p>
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Na Na Na by My Chemical Romance</span> </p>
+    <p class=dess style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        post concert depression is hitting me so hard.<br>
+        i hate that i cant bring myself to do anything<br>
+        i feel fucking useless<br>
+        what am i even doing with my life<br><br>
+        -D
+    </p>
+
+    <br>
+    <br>
+
+
+
+    <p class=simon style="color:white; font-family:comicsams, cursive; font-size:30px;"> 12.07.2026</p>
+    <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">nothing. i am not listening to music.</span> </p>
+    <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+        i am so autistic. <br>
+        i burnt a new cd.<br>
+        i love mcr.<br>
+        that is all.<br>
+    </p>
+
+    <br>
+    <br>
+
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:30px;"> 12.07.2026</p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Na Na Na Na Na Na Na Na Na Na Na Na</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            i am listening to my new Danger Days cd rn.<br>
+            i love danger days. bit dissapointing that there's no Dr Death Defying but its okay the songs are still peak.<br>
+            Danger Days they could never make me hate you <br>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Bulletproof Heart</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            sorry i have't had alot of time to update here i've been very busy and very autistic<br>
+            on thursday i had to prepare to go to see mrc<br>
+            and then on friday i did see mcr<br>
+            and yesterday i spent most of the time sleeping or being autsitic about mcr<br>
+            i rearranged my shelf and everything so it can hold all my merch<br>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">SING</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">haha it took longer to get the pictures than i thought - i'm also adding pictures of my shirts because they aren't on the display because im going to wear those<br>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Planetary (Go!)</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            hm i just thought about it and now im nervous this cd won't have Vampire Money but i will *grits my teeth* throw a party parade if it doesn't<br>
+            ANYWAY LOOK AT MY COOL SHIT<br>
+            <img src="fortheblog/02shelf.jpg" width=1300>
+            <img src="important/nothin.png" width=50>
+            <img src="fortheblog/02blackparadeshirt.jpg" width=200>
+            <img src="important/nothin.png" width=50>
+            <img src="fortheblog/02blackparadeshirtback.jpg" width=200>
+            <img src="important/nothin.png" width=50>
+            <img src="fortheblog/02cds.jpg" width=200>
+            <img src="important/nothin.png" width=50>
+            <img src="fortheblog/02iforgiveyou.jpg" width=200>
+            <img src="important/nothin.png" width=50>
+            <img src="fortheblog/02killjoys.jpg" width=200>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">The Only Hope For Me Is You</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            pretty awesome, right?
+            i'm listening to the cd with the venom siblings designs on them rn<br>
+            my only thing about the shelf is im not a fan of the gap between killjoys calidfornia and the next shelf hold up thingy<br>
+            i might use the insert from the vinyl ??<br>
+            yeah so i got the tour shirt (obviously) and the vinyl and the Draag pin at the concert<br>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Party Poison</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            wow this song feels really different without the random japanise lady at the start<br>
+            yeah so i also gave out some kandi stars and i got some stuff in return !!<br>
+            <img src="fortheblog/02kandi.jpeg" width=200>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">Save Yourself I'll Hold Them Back</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            i had such a good time tho<br>
+            i felt like properly alive and like i was me it was so good<br>
+            and everyone there was so nice, one of the people i got kandi from even came up to me and said my mask was cool and that's how i got the Party Poison bracelet<br>
+            oh my god i love this album so so much i might even make an mcr section of this website bcs im so mega autstic<br>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style="font-size:17px">S/C/A/R/E/C/R/O/W</span> </p>
+        <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">
+            i am genuinely so thankful for the whole experence it was fucking trancendent i think it was actually life changing<br>
+            i did cry during demolition lovers and that is so valid okay<br>
+            fuckkk this song is so good aswell i love you frank iero thank you for peak setlists<br>
+            praying every night to mcr bcs i'm normal <3 <br>
+  spins around in circles spins around in circles spins around in circles<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Summertime</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">fun fact about my shelf, the Party Poison mask is being held up by a funko pop of Seapony!Fluttershy<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">DESTROYA</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i don't rember if i mentioned but i might put the insert for the vinyl up on the blank space of the wall<br>
+  i might play Crypt Of The Necrodancer later, i put some mcr songs into it a while back i should play it again it's really good<br>
+  DESTROYA DESTROYA DESTROYA DESTROYA<br>
+  oh my dog common danger days w this shit is so peak<br>
+  i'm actually quite excited for the second disc bcs ive only really listened to the b sides and other stuff once, i tend to save stuff like that for a rainy day<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">The Kids From Yestarday</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">it would be so fucking funny if the next track was just a shittier version of the american national anthem bcs theres no goodnight dr death<br>
+  man i love this album so much<br>
+  wags my tail wags my tail wags my tail wags my tail<br>
+  this song and famous last words kind of have the same vibe as eachother like at the core of them i don't really know how to explain<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Vampire Money</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">LETS FUCKING GOOOOOOOOO<br>
+  grins so big<br>
+  as good of an ending Kids From Yesterday is Vampire Money is a way better closer<br>
+  i mean in my soul i think Danger Days is embracing who you are and just doing whatever the fuck you want it deserves to go out with a bang like this<br>
+  THE KIDS DONT CARE IF YOU'RE ALRIGHT HONEY PILLS DONT HELP BUT IT SURE IS FUNNY GIMMIE GIMMIE SOME OF THAT VAMPIRE MONEY COME ON !!!!<br><br>
+
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Zero Percent</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">time for disk 2 !!<br>
+  they played this song live for the first time on friday when i saw it i thought that was super awesome<br>
+  haha i might have less comentary on these bcs i need to *listen* to them more if you get what i mean<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">We Don't Need Another Song About California</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i am so joyous and thankful for this album<br>
+  thinking about whoever that was on discord that said that mcr should have stayed underground, and i get that to an extent but also i'm really glad that they exit to this extent because they get to play awesome shows and fufill their creative vision to the fullest<br>
+  idk entirely vibes based but they seem like the kinda person to dislike danger days on its face<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">F.T.W.W.W.</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i fuck with the vibes of this already<br>
+  song for all the robotfuckers in the audience (me)<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Mastas Of Ravenkroft</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">ngl i should have spent more time with Mad Gear And The Missile Kid before this i fuck with it so hard<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Black Dragon Fighting Society</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i really feel like i should have more to say but i'm honestly just enjoying myself rn.<br>
+  fuck this shit is so good<br>
+  wags my tail wags my tail wags my tail wags my tail<br>
+  i wish these songs went on for longer :(<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Common People</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">fun fact ! i've actually seen Pulp live<br>
+  oh wow i just checked it was in 23 it didn't feel like that long ago<br>
+  either way common mcr w<br>
+  this is a very danger days song ngl it does fit pretty well<br>
+  life is so joyous im so happy to still exist i can listen to awesome music and have an aweosme time<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">SING (Itunes Festival) </span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i wonder how many people who own stuff on vinyl actually listen to them<br>
+  and since i do own a vinyl i do technically fall into this category now but i have it on cd aswell which i am listening to it on<br>
+  ngl i do think SING is the weakest track on the album but that's just a personal thing<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">The Kids From Yesterday (Itunes Festival)</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">this is so peak this is so peak this is so peak<br>
+  haha i always forget this song has a longass outro<br>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Na Na Na (Na Na Na Na Na Na Na Na Na) (Recorded for BBC radio 1)</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;">i don't actually know how many Nas are in the titile i just go off of vibes<br>
+  this album is so awesome it's so special to me<br>
+  "angels made from neon and fucking garbage" is such a fire line i am not getting over that ever actually<br>
+  that was so sick. i love this album so much thank you my chemical romance <3
+  </p>
+
+  <br><br>
+
+
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:30px;"> 08.07.2026</p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Raise Up Your Bat by Blood Crushers The Band</span> </p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:15px;">robbie did a drawing of me earlier that was really nice of it.<br>
+  it made me feel a bit more real.<br>
+  its nice to me but i think its out of courtesy.<br>
+  if theres another person in your body its probably worth catering to them so they don't ruin your life.<br>
+  the more that i think of it i have alot of power over it.<br>
+  i like that.<br>
+  i hope it reads this later.<br>
+  <br>
+  sometimes its okay to stay lost<br>
+  -D
+  </p>
+
+  <br><br>
+
+
+  <p class=mikey style="color:white; font-family:comicsams, cursive; font-size:30px;"> 07.07.2026</p>
+  <p class=mikey style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Sync Up from Be More Chill (the 2019 broadway version)</span> </p>
+  <p class=mikey style="color:white; font-family:comicsams, cursive; font-size:15px;"> thinking about Be More Chill Right now<br>
+  I really like Be More Chill<br>
+  I mean its kinda part of where im sourced from???? I think????<br>
+  it gets a little muddy and hard to think of when I try too hard<br>
+  either way I sort of self actualise myself as Michael. that's me. I'm in the musical :)<br>
+  and people like me. I like that I think. sometimes it's scary though. that I'm me but that's also me?<br>
+  I'm rambling I should stop rambling<br>
+  <br>
+  > Mikey :3
+  <br>
+  my colour isn't working :(<br>
+  i fixed it :D
+  </p>
+
+  <br><br>
+
+
+ <p class=dess style="color:white; font-family:comicsams, cursive; font-size:30px;"> 07.07.2026</p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">The Whole World and You by Tally Hall</span> </p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:15px;"> haha wow.
+  </p>
+
+  <br><br>
+
+
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:30px;"> 05.07.2026</p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Small World by Jack Stauber</span> </p>
+  <p class=dess style="color:white; font-family:comicsams, cursive; font-size:15px;">haha sorry it's been a little while hasn't it ?<br>
+  i have. been busy to say the least<br>
+  well busy and overwhelmed and not entirely myself but thats okay im working on it<br>
+  i just got home from norfolk<br>
+  which was okay i guess but i got my period and that was horrid and evil<br>
+  <br>
+  sometimes its okay to stay lost<br>
+  -D
+  </p>
+
+  <br><br>
+
+
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 01.07.2026 (part 2)</p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Rawdog by Flavour Foley</span> </p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;"> i still don't know who that was, he's still here a bit, she cried for a while before i got ahold of myself more and did some drawing to try to calm her down, i think she liked that<br>
+  i think it's just because today has been alot for all of us, faith and simon have both been out in parts today too its given me a real headache<br>
+  faith was cofronting for most of my time at uni and i think simon was there on occasion but not as much as her<br>
+  whoever the other one is i don't think she's new, this feels like how i felt when i read scott pilgrim (time wise not literally connected to reading scott pilgrim)<br>
+  oh and faith has a name now, good for her, i might try to make her a page too at some point if she wants me to<br>
+  the only one of my alters that will not get a dedicated part of the site no matter what is socks, she's been on the internet a bit before but i don't really want her fucking things up for me.<br>
+  sorry socks i love you<br>
+  <br>
+  well anyway that's Robin signing off, have a good morning,<br>
+  and in case I don't see you good afternoon, good evening, and good night
+  </p>
+
+  <br><br>
+
+
+  <p class=who style="color:white; font-family:comicsams, cursive; font-size:30px;"> 01.07.2026 </p>
+  <p class=who style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Flower Man by Toby Fox</span> </p>
+  <p class=who style="color:white; font-family:comicsams, cursive; font-size:15px;"> i. have no idea who's fronting right now.
+  someone was in my dream before this and i think it might have been her. <br>
+  she definitely wasn't faith or socks. <br>
+  its someone else. <br>
+  can there stop being more of them. <br>
+  please. <br>
+  this is horrible. <br>
+  i hate them. <br>
+  i hate all of them i wish they'd go away and leave me alone i just want to be me and know that i'm me why is that so hard why can't i be normal.<br><br>
+  that is all.
+
+  </p>
+
+  <br><br>
+
+
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 28.06.2026 </p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br>Rainbow Connection (2020 version) written by Paul Williams and Kenneth Ascher </p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;">i've had a nice day today, it hasn't been as hot as it has been and that's cool<br>
+  i actually worked on some stuff for uni, i made the interact system, and by i made it i mean i made the basis of it nothing actually happens when you interact with it yet, i'm going to work on that on tuesday<br>
+  i had more of the brownies that jane made that was cool i liked them :33<br>
+  and hopefully roxy might come around tomorrow <span style="font-size:13px">(today techincally i'm writing this past midinght, i have with most of these but i attribute them to the day i am recounting rather than the day they were written)</span><br>
+  the song changed while i was writing this it's <a href="https://www.youtube.com/watch?v=x_OCoxgUr9E">The Blingo Song</a> now which is quite funny hot off the heels of Rainbow Connection but i'm not complaining,<br>
+  that sort of reminds me i need to look into the moshi monsters reboot stuff, i played a bit of rewritten a couple years ago for some reason. man i miss moshi monsters that was peak.<br>
+  oh and i can't beleive i forgot but i've started to revamp the site because i don't feel much attachment to the barknbyte user anymore so we're deers4fears coded now<br>
+  <img src="fortheblog/01oldsite.png"           width=500 >
+  <img src="important/nothin.png"                   width=50 >
+  <img src="fortheblog/01newsite.png"           width=500 >
+  <br><br>
+  well anyway that's Robin signing off, have a good morning,<br>
+  and in case I don't see you good afternoon, good evening, and good night
+
+  <br><br>
+
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:30px;"> 27.06.2026 </p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Gettin My Mom On by Jack Stauber</span> </p>
+  <p class=robin style="color:white; font-family:comicsams, cursive; font-size:15px;"> haha i kinda forgot to update this for a bit but that's okay. i did some development on <a href="simonspace.html">Simon's page</a> on wednesday and thursday that was cool. <br>oh and deltarune chapter 5 came out that was super cool, i might make a <a href="deltarune.html">seperate page</a> about that for people who don't want spoilers - not that anyone even looks at this site let alone this page - <br>AND MY FRIEND CAME OVER TODAY YAY !! it was really cool we watched Nerdy Prudes Must Die it was so awesome she really liked it which is great because its awesome</p>
+
+  <br><br>
+
+
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:30px;"> 23.06.2026 </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:22px;"> song that's on right now <br><span style ="font-size:17px">Love Song by Straight Outta Junior High</span> </p>
+  <p class=simon style="color:white; font-family:comicsams, cursive; font-size:15px;"> oh my god it is hot as balls here i have got literally nothing done and i don't know if i'll ever get anything done again i am going to die of heatstroke i swear to god. i can't even turn on my pc bcs i'm scared she'll get too hot and i don't want to hurt her :(( <br>
+  i might just do some work on this site if i can be properly bothered to do that.<br>
+  <br>
+  your friend, <a href="simonspace.html">Simon</a>  <br>
+  <span style="font-size:10px">ps. i might make a little page for my alters intros so i have those all in one place for them to look at</span></p>
+
+  <center><a class = robin  href="index.html" style="font-size:50px; font-family:comicsams, cursive;" ><b>GO HOME</b></a></center>
+
+
+    </body>
+</html>

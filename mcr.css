@@ -1,0 +1,43 @@
+body{
+
+      background-image: url(important/backgrounds/dangerdays.png);
+      background-color: black;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    @font-face {
+      font-family: 'chalk';
+      src: url(important/fonts/Chalk.otf);
+    }
+    @font-face {
+      font-family: 'comicsams';
+      src: url(important/fonts/sansfont.ttf);
+    }
+    @font-face {
+      font-family: 'huh1';
+      src: url(important/fonts/ClassicMarket.otf);
+    }
+    @font-face {
+      font-family: 'crayons';
+      src: url(important/fonts/ColoredCrayons.ttf);
+    }
+    @font-face {
+      font-family: 'chalkcoal';
+      src: url(important/fonts/Chalkcoal.ttf);
+    }
+    @font-face {
+      font-family: 'crayon2';
+      src: url(important/fonts/CrayonHandRegular2016Demo.ttf);
+    }
+    @font-face {
+      font-family: 'people';
+      src: url(important/fonts/People.ttf);
+    }
+    
+    
+    
+    .shadow{
+    text-shadow: 0 0 5px #000000, 0 0 10px #000000, 0 0 15px #000000;
+  
+        }
